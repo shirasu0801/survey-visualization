@@ -7,11 +7,11 @@ import json
 
 
 class Settings(BaseSettings):
-    # Database
-    DATABASE_URL: str = "postgresql://user:password@localhost:5432/survey_db"
+    # Database（環境変数または .env で必須設定。認証情報をコードに埋めない）
+    DATABASE_URL: str
     
-    # Security
-    SECRET_KEY: str = "your-secret-key-here-change-in-production"
+    # Security（環境変数または .env で必須設定。既知のデフォルト値は置かない）
+    SECRET_KEY: str
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     
@@ -45,3 +45,6 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+
+if settings.SECRET_KEY == "your-secret-key-here-change-in-production":
+    raise RuntimeError("SECRET_KEY must be changed from the known placeholder value")
